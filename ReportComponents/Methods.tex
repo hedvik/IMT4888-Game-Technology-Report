@@ -1,0 +1,31 @@
+\section{Methods}
+   * Exploratory approach to optimisation
+      * I've had limited experience with working on large scale optimisations before.
+
+\subsection{Test Cases and Data Acquisition}
+Testing was divided into three baseline cases:
+\begin{enumerate}
+    \item A naive Unity implementation
+    \item A job optimised version of the naive Unity implementation
+    \item A naive Unity ECS implementation
+\end{enumerate}
+These three were then further optimised on an individual level to see how far I could get them in terms of performance. In general, the goal for making these test cases was to create a scenario where there are a large amount of moving objects on screen. This is something data-oriented design excels at in theory and it is interesting to see how big the differences are. 
+
+Data acquisition consisted of a 30 second recording where the frame latencies in milliseconds were collected per frame. This recording was initiated a few seconds after the program had started in order to not include spikes from the start-up. This data was then output to a .CSV file which was uploaded to the project spreadsheet on Google Sheets~\cite{projectSpreadsheet}.
+
+\subsection{Testing Environment}
+* Unity 2018.2.7f1
+* Entities package 0.0.12-preview.16
+* Display resolution of 1047x589 for testing
+* Intel Core i7-6700K
+* nVidia GeForce GTX 1080
+
+\subsection{Determining the Next Course for Optimisation}
+* Profiler inspection to identify bottlenecks and latency spikes
+
+\subsection{Usage of Framerate and Frame Latency Display}
+   * A realtime framerate/latency display was also used during all tests to have a quick glance at performance differences (TODO: Link to the library used)
+   
+   * Unity's own fps/ms counter is not reliable as it inflates the number to a value it believes the program will achieve in release mode.(TODO: should probably cite this as well) 
+      * Which has a tendency to be incorrect
+      

@@ -1,0 +1,73 @@
+\section{Background}
+* Background - what was the approach previously (object oriented design :P)
+* Before detailing what Unity ECS is, it might be useful to provide some context on the underlying design philosophy it makes use of: Data-Oriented Design
+
+\subsection{Data-Oriented Design}
+* There are a fair amount of resources discussing data-oriented design, this section is mostly a summary from Noel's blogpost on it. http://gamesfromwithin.com/data-oriented-design
+
+* What is the problem with object-oriented design in game development?
+   * Cache misses are problematic
+      * It is expensive and takes a lot of CPU cycles to deal with
+      * Technicalities are discussed here http://www.dataorienteddesign.com/dodmain/node17.html (written by Richard Fabian)
+      * Object-oriented patterns in general can very easily result in cache misses for games
+   * Multithreaded code is very error-prone and synchronisation can be costly. 
+* What is data-oriented design and how does it fix the problem? 
+   * A shift in focus from objects to pure data
+      * "The type of data, how it is laid out in memory and how it will be read + processed in the game" (Citation from link)
+      * Decoupling data from logic
+   * By breaking objects into components and grouping components of the same type together it is a lot easier to sequentially process them compared to the object oriented approach of dealing with each object and its related hierarchies in isolation. 
+   * As a result it works well on large groups of objects
+   * Data-oriented design makes it easier to write parallel code
+      * we are mostly dealing with input data, a small function that processes it and some output data. (Large amounts of SIMD style instructions)
+      * less synchronisation is generally needed
+   * Performance benefits
+    * The same code is executed over and over in a data-oriented system which results in efficient use of instruction caches
+    * Data caches are also efficiently used since data of the same type are stored in large contiguous blocks and are sequentually processed. 
+    * In terms of optimisation we also primarily have to think of data usage and processing at a higher level which can be hard with traditional OOP
+   * Other benefits
+    * Code is often more modular as we mostly have to write small functions that transform some data
+       * These small functions generally have very little dependency on other parts of code too
+       * No need to understand complex hierarchies to understand the basics of the code
+   * A drawback with DOD though is that it is different from what most people are used to so it takes time to rethink and restructure how we think about code. 
+   * While data-oriented design primarily is used for games, there has also been a case for using it outside of this domain https://www.youtube.com/watch?v=yy8jQgmhbAU
+\subsection{Unity ECS, Job System and Burst}
+  * What is Unity ECS?	
+	* A paradigm shift from object oriented design to data oriented design.
+	* In standard Unity the architecture is as follows
+		* A scene consists of GameObjects
+		* GameObjects contain components which can be seen as data containers or scripts with behaviours attached.
+	* In general, GameObjects are rather heavyweight and come with a Transform component by default.
+		* There are a lot of different callbacks per GameObject with MonoBehaviour components attached
+	* Unity has previously tried to provide more lightweight versions of GameObjects through ScriptableObjects.
+		* These are primarily used as data containers with potentially some minor behaviour code.
+        * Everything still is tied to GameObjects though as ScriptableObjects have to be loaded and worked with in a component that exists within a gameobject. 
+    * ECS
+    	* Shifting how Unity works from the core to allow for better performance by default.
+    	* Instead of GameObjects we now have Entities which could be seen as a more lightweight version of the former. 
+    	   * An entity in this case is ultimately just an ID to a list of components
+    	* Components still exist in ECS, but they are purely used as data containers with no behaviour.
+    	* Any behavioural code is instead handled by Systems which process groups of component data, following the same principles we see in data-oriented design
+    		* I.e. instead of having three GameObjects with a "IdentifyAndShootPlayer" script that are run individually per gameobject we now have a System that works on all Entities that contain "IdentifyAndShootPlayerComponent".
+    	* This data oriented paradigm is by default a fair bit faster than the standard Unity approach as a good amount of overhead is decreased and cache usage is improved.
+        * This is also very well suited as a multithreaded environment.
+    * Job System
+      * Allowing developers to write multithreaded code by providing access to the native Job System that the engine uses internally (Cite I guess?).
+	  * Closely coupled with ECS to parallelise how Systems work on Components, but can also be used in Standard Unity. 
+      * Tries to avoid common pitfalls in multithreading by being architectured in a way that avoids race conditions.
+    * Burst Compiler
+      * A compiler that compiles a subset of C\# called "High Performance C\#" for better performance. 
+    * Making use of these three in tandem is generally what is recommended for highest performance gains. 
+    * Everything is currently in early preview so you are expected to write all the Systems yourself outside of barebones graphics and transform handling. 
+	* The goal for Unity is to provide a ECS equivalent to everything that currently exists in the engine today. (Cite?) 
+	* The general workflow for writing a parallel System is similar to working with a GPU where your Job is similar to that of a Shader in terms of how you need to declare everything you want to use ahead of time and how you are limited in interfacing with the outside world
+
+\subsection{Resources for learning about Unity ECS, The new Job System and the Burst Compiler}
+* Sources:
+  * Search terms which find good resources related to the technology
+     * Unity forums have their own section for ECS where a lot of questions, discussion and similarly can be found
+  * Links to a good explanations
+     * Gotchas link (useful for new developers that are trying to get used to ECS. It probably is a bit outdated though as ECS syntax and functionality changes fairly quickly based on feedback and the fact that it still is in early preview. It was useful for me when I was learning ECS during last summer, but it might be less useful now)
+  * Links to a good resources/tutorials
+     * ECS repo documentation and sample code
+     * Unity's official tutorials
+     * As with any documentation or tutorials, they might be slightly outdated from the latest bleeding edge build of ECS, but the core concepts should of course stay the same. 
