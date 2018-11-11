@@ -32,7 +32,7 @@ After the spawning process, each star then orbits around the center of the galax
 Each star makes use of the default sphere mesh in Unity in combination with a randomly selected material which supports GPU instancing. This should provide a more taxing (and visually interesting) environment compared to simply using two dimensional sprites. 
 
 Only having a large amount of differently coloured spheres would not look particularly appealing in a galaxy. This is why post processing bloom is applied in combination with HDR emission in the material of the stars to create a glowing appearance. As a result, the larger concentration of stars towards the center of the galaxy produces far more glow which provides a more visually natural image since stars actually emit light. The visual difference between not using and using bloom can be seen in Figure~\ref{fig:nobloom} and~\ref{fig:bloom}.
-Multi-sampling anti aliasing (MSAA) is applied as it mitigates the flickering that comes from moving objects with bloom(TODO: Does this need citation? It's mostly just an artifact of Unity's bloom implementation). Finally, temporal anti aliasing (TAA) is applied to smoothen the final image. 
+Multi-sampling anti aliasing (MSAA) is applied as it mitigates the flickering that comes from moving objects with bloom(TODO: Does this need citation? It's mostly just an artifact of Unity's bloom implementation). Finally, temporal anti aliasing (TAA) is applied to smooth the final image. 
 
 \begin{figure}[tbph]
     \centering
@@ -63,7 +63,7 @@ The process of translating stars is handled by using a job from the new Job Syst
 The means of translating a star along its own orbit is handled by first finding the current angle between the star and the center of the galaxy. This angle is then subtracted from with Time.deltaTime multiplied by the speed of the star. Standard trigonometry functions like cosine and sine are used together with the new angle to update the position of the star relative to the galaxy center. Finally, the star is offset so that it keeps the distance from the center which was stored during spawning. 
 
 \subsubsection{Naive ECS Implementation}
-The ECS implementation is split up into a variety of files and the general pipeline is fairly different from standard Unity. This section is mostly focused on the specific implementation in this case so some technical background in ECS might be useful to understand the source code. 
+The ECS implementation is split up into a variety of files and the general pipeline is fairly different from standard Unity. This section is mostly focused on the specific implementation in this case so some technical background in ECS might be useful to understand the source code. The naming of the test case is mostly a result of the fact that I could not really think of many other ways to implement the logic in ECS.
 
 \paragraph{Components and Bootstrapping}
 Since the galaxy simulation only consists of stars there only is one component. This can be seen in the TransformOrbitComponents.cs script~\cite{transformOrbitComponent} where the OrbitingStar component only stores the necessary data for orbiting. Entity creation is handled in a bootstrapper script~\cite{bootstrapper} which consumes galaxy settings from a GameObject in the scene and creates entities that consist of four components. These four components are Position, Scale, OrbitingStar and a MeshInstanceRenderer. During creation of entities, each star is placed around in the galaxy similar to how the other test cases handle it. 

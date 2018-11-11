@@ -1,5 +1,8 @@
 \section{Background}
-* Background - what was the approach previously (object oriented design :P)
+* Background - what was the approach previously
+  * Assembly was used a lot initially
+  * Working in straight C is also an option
+  * Games nowadays often make use of object oriented design.
 * Before detailing what Unity ECS is, it might be useful to provide some context on the underlying design philosophy it makes use of: Data-Oriented Design
 
 \subsection{Data-Oriented Design}
@@ -16,7 +19,7 @@
       * "The type of data, how it is laid out in memory and how it will be read + processed in the game" (Citation from link)
       * Decoupling data from logic
    * By breaking objects into components and grouping components of the same type together it is a lot easier to sequentially process them compared to the object oriented approach of dealing with each object and its related hierarchies in isolation. 
-   * As a result it works well on large groups of objects
+   * As a result it works well on large groups of objects/things(?)
    * Data-oriented design makes it easier to write parallel code
       * we are mostly dealing with input data, a small function that processes it and some output data. (Large amounts of SIMD style instructions)
       * less synchronisation is generally needed
@@ -26,9 +29,9 @@
     * In terms of optimisation we also primarily have to think of data usage and processing at a higher level which can be hard with traditional OOP
    * Other benefits
     * Code is often more modular as we mostly have to write small functions that transform some data
-       * These small functions generally have very little dependency on other parts of code too
+       * These small functions generally have little dependency on other parts of code
        * No need to understand complex hierarchies to understand the basics of the code
-   * A drawback with DOD though is that it is different from what most people are used to so it takes time to rethink and restructure how we think about code. 
+   * A drawback with DOD though is that it is different from what most people are used to so it takes time to rethink and restructure how we think about code architectures. 
    * While data-oriented design primarily is used for games, there has also been a case for using it outside of this domain https://www.youtube.com/watch?v=yy8jQgmhbAU
 \subsection{Unity ECS, Job System and Burst}
   * What is Unity ECS?	
@@ -61,7 +64,7 @@
 	* The goal for Unity is to provide a ECS equivalent to everything that currently exists in the engine today. (Cite?) 
 	* The general workflow for writing a parallel System is similar to working with a GPU where your Job is similar to that of a Shader in terms of how you need to declare everything you want to use ahead of time and how you are limited in interfacing with the outside world
 
-\subsection{Resources for learning about Unity ECS, The new Job System and the Burst Compiler}
+\subsection{Resources for learning about Unity ECS, Job System and Burst Compiler}
 * Sources:
   * Search terms which find good resources related to the technology
      * Unity forums have their own section for ECS where a lot of questions, discussion and similarly can be found
@@ -71,3 +74,5 @@
      * ECS repo documentation and sample code
      * Unity's official tutorials
      * As with any documentation or tutorials, they might be slightly outdated from the latest bleeding edge build of ECS, but the core concepts should of course stay the same. 
+     * Some small useful technical utilities
+        * https://coffeebraingames.wordpress.com/2018/10/14/some-ecs-utility-scripts/

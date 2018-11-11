@@ -1,36 +1,73 @@
 \section{Discussion}
+\subsection{Discussion Per Test Condition}
    * Discussing the decisions I made for how to optimise further from the base test cases (Generally a per test discussion)
       * Graphics was a bottleneck
             * Graphics Performance guides from Unity looked at
                   * Tried various proposals from link
-
-   * Overall Discussion on the results
-   * Interesting information from test results 
-      * Profiler frames discussion 
+   * Profiler frames discussion 
       * Tradeoffs for Deferred Rendering in this case
-      * Operating System impact on performance
-         * While trying out the same test conditions at different times frame rate variance of around 5-8fps was observed which most likely is a result of the operating system having different degrees of load on the hardware at different times.
-      * Differences in bottlenecks
+         * Flickering, can look at 60k and 100k videos
+         * It is not highly noticeable here, but the fewer stars there are the more flicker there is
+         * It is generally up to the developer whether they find the tradeoff worth it in their case. The performance boost is rather substantial at least
+\subsubsection{Naive Unity}
+\subsubsection{Job Optimised Unity}
+\subsubsection{Naive ECS}
+
+\subsection{Overall Discussion of Results}
+* Differences in bottlenecks
          * Standard Unity is heavily affected by AA, while ECS is not
          * Mesh complexity matters a lot for ECS in a forward rendering scenario, but not for standard Unity
             * When using deferred rendering this difference is neglible
-   * Code complexity vs performance payoff
-       * Halsteadt's complexity/Cyclomatic Complexity could be looked at
-   * Other test cases that were briefly looked at, but not recorded due to showing no performance difference
-      * Assuming the average framerate and stability stayed more or less the same between a pre change and post change execution of the program
+
    * While both Job Optimised Unity and ECS are parallel how come the difference in performance is still so big?
       * Partly on the architectural side
          * Object oriented design vs. data oriented design
          * With a lot of GameObjects the cache usage is pretty bad due to always moving around in different hierarchies per object
          * The entity component system model leverages the benefits of data-oriented design in this regard and makes better use of cache
-         * On the rendering side, while both interface with the same graphics  API, there are some differences in how data is structured and sent to the GPU which further could improve performance
+         * On the rendering side, while both interface with the same graphics API, there are some differences in how data is structured and sent to the GPU which further could improve performance
       * The ECS version is also compiled with the Burst compiler.
          * I was originally under the impression that Burst only worked with ECS, but it seems like it now supports the Job System in general. 
          * So it might be possible to further improve the performance of the joboptimised Unity condition by adding burst compilation
-   * Galaxy sizes
-      * Original goal on the ECS side was to try and achieve 100k stars at around 60fps (TODO: Not entirely sure where to mention this yet, probably in discussion somewhere when mentioning why I used specific star counts)
+         * You should probably not expect too big of a difference though as burst primarily is meant to work in synergy with ECS and the Job System
 
-TODO: 
+\subsection{Reliability of Test Results}
+      * Moving pieces that are hard to control
+          * While trying out the same test conditions at different times a frame rate variance of around 5-8fps was observed
+          * Operating System impact on performance
+             * Can be a result of the operating system having different degrees of load on the hardware at different times.
+             * For all the tests, I tried to keep any additional programs closed, but the OS can still do things in the background that impact performance
+          * Editor overhead
+             * Should generally be consistent between tests, but this is hard to fully confirm
+      * Overhead from framerate counter should not matter much as this is consistently in use for all tests
+      
+      * The ECS and Job optimised cases could be more affected by OS related interrupts as all available threads are working during runtime and might be problematic with context switching
+      * The naive unity case mostly runs on the main thread so it is less affected by this problem
+
+\subsection{Unrecorded Test Cases}
+   * Other test cases on additional variables that were briefly looked at, but not recorded due to time constraints 
+      * Assuming the average framerate and stability stayed more or less the same between a pre change and post change execution of the program
+   * Editor vs. Release
+      * Mentioned in Methods
+      * Very strange how performance drops so drastically in release mode, even when actual resolution is similar or the same between editor/build
+      * Not necessarily easy to find out why
+         * My performance measurer only works with the editor due to differences in folder structure
+      * Speculation: 
+         * Specific quality settings that only apply in release mode might result in lower performance
+         * Burst and ECS have specific optimisations that only work in debug so far
+   * Resolution
+      * Can look at the provided videos relative to the performance benchmark as those have a maximised viewport
+      * Expect some additional overhead from actually recording though
+   
+\subsection{Code Complexity vs. Performance Payoff}
+   * Code complexity vs performance payoff
+       * Halsteadt's complexity/Cyclomatic Complexity could be looked at
+   * This test environment is not particularly complex
+      * The complexity of Pure ECS might explode quite a bit for larger projects
+         * Comparatively large amounts of monobehaviour usage struggles with performance in larger projects
+         * So it is all a balancing act
+      * Hybrid solutions can be useful in that regard
+   
+\subsection{The Future of Unity ECS} 
 * The Future:
   * What is the expected lifetime of this technology? (Depends on user feedback, but generally it seems to be something Unity Technologies wants to coexist with the existing architecture so developers can either choose or use hybrid solutions)
-  * What might replace it in the future? (nothing unless the way our CPU's are architectured changes drastically so data oriented design is less beneficial :p)
+  * What might replace it in the future? (''nothing'' unless the way our CPU's are architectured changes drastically so data oriented design is less beneficial :p)
