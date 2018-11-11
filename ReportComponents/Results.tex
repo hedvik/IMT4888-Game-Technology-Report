@@ -1,9 +1,9 @@
-\section{Results}
+\chapter{Results}
 * Plenty of data~\cite{projectSpreadsheet}
 * In terms of frame latency, lower values mean higher performance as frames are delivered more quickly
 * The order of the legend in each graph is relative to the order which these conditions were tested, meaning the top one is the first one and the bottom one is the last one. 
 
-\subsection{Overview of Search Space}
+\section{Overview of Search Space}
 \begin{figure}[tbph]
     \centering
     \includegraphics[width=1\textwidth]{Figures/SearchSpace.png}
@@ -13,7 +13,7 @@
 
 * Figure~\ref{fig:searchspace}
 
-\subsection{Naive Unity Tests}
+\section{Naive Unity Tests}
 \begin{figure}[!p]
     \centering
     \includegraphics[width=1\textwidth]{Figures/naiveUnityLatencies.png}
@@ -25,7 +25,7 @@
 * Figure~\ref{fig:naiveUnityLatency}
 * Opting for SMAA as AA method yielded best performance/lowest frame latency here
 
-\subsection{Job Optimised Unity Tests}
+\section{Job Optimised Unity Tests}
 \begin{figure}[!p]
     \centering
     \includegraphics[width=1\textwidth]{Figures/jobOptimisedUnityLatencies.png}
@@ -37,7 +37,7 @@
 * Figure~\ref{fig:jobOptimisedUnityLatency}
 * Similarly to Naive Unity, opting for SMAA instead of TAA generally improved performance. Using deferred instead of forward further improved performance, but not to the same degree as changing AA method.
 
-\subsection{Naive ECS Tests}
+\section{Naive ECS Tests}
 \begin{figure}[!p]
     \centering
     \includegraphics[width=1\textwidth]{Figures/naiveEcsLatencies.png}
@@ -52,7 +52,7 @@
 * Compared to the other two test cases, use of post processing AA did not appear to affect the results in a similar way. 
 * A test case with 100k stars is included here to see the scalability of the best performing test
 
-\subsection{Average framerate for all tests}
+\section{Average framerate for all tests}
 \begin{figure}[!p]
     \centering
     \includegraphics[width=1\textwidth]{Figures/averageFpsPerTest.png}

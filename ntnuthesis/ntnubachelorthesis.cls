@@ -405,7 +405,7 @@ Use $\backslash$useyear\{<year>\} to set year.
 		}
 	
 	\newcommand\nmt@DegreeNameText{}
-  \newcommand\nmt@BSP{Project Report for IMT4889}
+  \newcommand\nmt@BSP{Project Report for IMT4888}
   \newcommand\nmt@BPROG{Bachelor in Programming [Games|Applications]}
   \newcommand\nmt@BRD{Bachelor of Science in Network and System Administration}
   \newcommand\nmt@BIS{Bachelor in Information Security}

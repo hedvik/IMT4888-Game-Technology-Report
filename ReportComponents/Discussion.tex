@@ -1,5 +1,5 @@
-\section{Discussion}
-\subsection{Discussion Per Test Condition}
+\chapter{Discussion}
+\section{Discussion Per Test Condition}
    * Discussing the decisions I made for how to optimise further from the base test cases (Generally a per test discussion)
       * Graphics was a bottleneck
             * Graphics Performance guides from Unity looked at
@@ -9,11 +9,11 @@
          * Flickering, can look at 60k and 100k videos
          * It is not highly noticeable here, but the fewer stars there are the more flicker there is
          * It is generally up to the developer whether they find the tradeoff worth it in their case. The performance boost is rather substantial at least
-\subsubsection{Naive Unity}
-\subsubsection{Job Optimised Unity}
-\subsubsection{Naive ECS}
+\subsection{Naive Unity}
+\subsection{Job Optimised Unity}
+\subsection{Naive ECS}
 
-\subsection{Overall Discussion of Results}
+\section{Overall Discussion of Results}
 * Differences in bottlenecks
          * Standard Unity is heavily affected by AA, while ECS is not
          * Mesh complexity matters a lot for ECS in a forward rendering scenario, but not for standard Unity
@@ -30,7 +30,7 @@
          * So it might be possible to further improve the performance of the joboptimised Unity condition by adding burst compilation
          * You should probably not expect too big of a difference though as burst primarily is meant to work in synergy with ECS and the Job System
 
-\subsection{Reliability of Test Results}
+\section{Reliability of Test Results}
       * Moving pieces that are hard to control
           * While trying out the same test conditions at different times a frame rate variance of around 5-8fps was observed
           * Operating System impact on performance
@@ -43,7 +43,7 @@
       * The ECS and Job optimised cases could be more affected by OS related interrupts as all available threads are working during runtime and might be problematic with context switching
       * The naive unity case mostly runs on the main thread so it is less affected by this problem
 
-\subsection{Unrecorded Test Cases}
+\section{Unrecorded Test Cases}
    * Other test cases on additional variables that were briefly looked at, but not recorded due to time constraints 
       * Assuming the average framerate and stability stayed more or less the same between a pre change and post change execution of the program
    * Editor vs. Release
@@ -58,7 +58,7 @@
       * Can look at the provided videos relative to the performance benchmark as those have a maximised viewport
       * Expect some additional overhead from actually recording though
    
-\subsection{Code Complexity vs. Performance Payoff}
+\section{Code Complexity vs. Performance Payoff}
    * Code complexity vs performance payoff
        * Halsteadt's complexity/Cyclomatic Complexity could be looked at
    * This test environment is not particularly complex
@@ -67,7 +67,7 @@
          * So it is all a balancing act
       * Hybrid solutions can be useful in that regard
    
-\subsection{The Future of Unity ECS} 
+\section{The Future of Unity ECS} 
 * The Future:
   * What is the expected lifetime of this technology? (Depends on user feedback, but generally it seems to be something Unity Technologies wants to coexist with the existing architecture so developers can either choose or use hybrid solutions)
   * What might replace it in the future? (''nothing'' unless the way our CPU's are architectured changes drastically so data oriented design is less beneficial :p)
