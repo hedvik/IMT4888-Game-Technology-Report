@@ -1,27 +1,4 @@
 \chapter{Introduction}
-* Unity is a pretty big and popular game engine
-* Particularly we see it a lot in the space of indie and mid budget type games
-* We dont see it used a lot for AAA development though compared to competitors like Unreal 
-* Why does Unity not see that much use for AAA development?
-   * One of the reasons for this is a performance/control over performance issue (Needs citations maybe? From a performance point of view this isn't really needed though)
-      * Garbage collector can create unwanted stutters in places where you dont want it.
-      * Unity has not really had any official support for multithreaded code either
-         * It has been possible to use C\# Jobs, but this approach is very limited as interfacing with Unity APIs is only possible on the main thread
+The Unity Engine sees a large amount of usage within the indie, mid-budget and VR portions of the game industry. On the other hand, the usage of Unity is less prevalent for AAA development in comparison with competitors like Unreal. So why does Unity not see as much usage in this field? One of the reasons for this related to performance and the control of it. Large portions of Unity are written in C\# which means that memory management is automated. The garbage collector in C\# can for example create unwanted stutters in places where developers do not want them. Furthermore, Unity does not really have any official support for multithreaded code either. It is possible to write multithreaded code using C\# functionality like \emph{async} and \emph{await}, but this approach is limited as interfacing with the Unity API is only possible on the main thread. 
 
-* As a means to deal with this problem Unity has recently launched their new Entity Component System (Shortened to ECS) in conjunction with access to Unity's native job system and the new burst compiler. 
-   
-* The primary goal with ECS is to provide an alternative data-oriented workflow for developers that focuses on performance by default and allowing for a larger degree of control and optimization freedom.
-* ECS is pretty new(and in early preview) and it is interesting to see how it compares to regular Unity on a performance side. Given their focus on "performance by default" it is also interesting to see how big the difference in performance is relative to the complexity of actually writing the code.
-* The core ECS functionality is planned for release in 2019(according to their latest R/D talk) so this can be seen as a early sneek peek of its capabilities
-
-TODO: 
-The report should contain:
-* Course Name, University logo(might switch template for that)
-* Student Name
-* Technology that is being presented
-
-* The Users:
-  * Who is using the technology (well, currently just people who are interested since it is not production ready :p)
-  * What are they using it for (better performance)
-     * (for mobile: lower battery consumption is also a benefit)
-  * Why are they using it instead of other approaches (performance, synergy between ECS/JobSystem/Burst)
+As a means to deal with this, Unity has recently launched their new Entity Component System (shortened to ''ECS'') in conjunction with an interface to Unity's native job system and the new Burst compiler. The goal with ECS is to provide an alternative data-oriented workflow for developers that focuses on performance by default and allowing the developer to focus their optimisations on the data and its processing. ECS is currently in early preview, but it is planned to release in 2019 according to Unity's latest R/D talk at Unite LA~\cite{unityLARND}. It is not production ready by any means as much of the core functionality is not yet implemented. Regardless, given the focus on ''performance by default'' it would be interesting to see how ECS compares to the standard object-oriented form of Unity. 

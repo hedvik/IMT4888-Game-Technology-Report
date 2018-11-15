@@ -615,7 +615,7 @@ Use $\backslash$useyear\{<year>\} to set year.
           } 
           \par}
         \end{tabular}\par}
-	\vskip 1em
+	\vskip 9em
 	\fontsize{14}{16} \selectfont{
 	\nmt@firstpagetext \\
 	\vskip 1em
